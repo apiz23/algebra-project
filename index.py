@@ -85,6 +85,39 @@ def prob1():
     for i, city in enumerate(['Jasin', 'Merlimau', 'Batu Berendam', 'Pagoh', 'Segamat', 'Kluang']):
         print(f"{city}: {optimal_flow[i]:.4f}")
 
+    #adjust to perform the Gauss Jordan Elimination
+    A = np.array([
+        [1, 22, 28, 0, 0, 90],       # Jasin
+        [22, 1, 0, 44, 0, 0],        # Merlimau
+        [28, 0, 1, 72, 92, 0],       # Batu Berendam
+        [0, 44, 72, 1, 53, 94],      # Pagoh
+        [0, 0, 92, 53, 1, 0],        # Segamat
+        [90, 0, 0, 94, 0, 1]         # Kluang
+    ])
+
+    B = np.array([100, 80, 120, 90, 110, 100])
+
+    n = len(B)
+    augmented_matrix = np.hstack([A, B.reshape(-1, 1)])
+
+    for i in range(n):
+        if augmented_matrix[i, i] == 0:
+            for k in range(i + 1, n):
+                if augmented_matrix[k, i] != 0:
+                    augmented_matrix[[i, k]] = augmented_matrix[[k, i]]
+                    break
+        diag_element = augmented_matrix[i, i]
+        augmented_matrix[i] = augmented_matrix[i] / diag_element
+        
+        for j in range(n):
+            if i != j:
+                row_factor = augmented_matrix[j, i]
+                augmented_matrix[j] -= row_factor * augmented_matrix[i]
+
+    print("\nOptimal Flow using Gauss-Jordan Elimination:")
+    for i, city in enumerate(['Jasin', 'Merlimau', 'Batu Berendam', 'Pagoh', 'Segamat', 'Kluang']):
+        print(f"{city}: {augmented_matrix[i, -1]:.4f}")
+
 def prob2():
     problem = pulp.LpProblem("Maximize Profit", pulp.LpMaximize)
 
