@@ -1,29 +1,35 @@
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
-import tkinter as tk
 import pulp
+import pyfiglet
+import os
 
-def main():
-    root = tk.Tk()
-    root.title("Choose Option")
+def main():            
+    os.system("clear || cls")
+    while True:
+        ascii_title = pyfiglet.figlet_format("Algebra Project")
+        print(ascii_title)
 
-    frame = tk.Frame(root, padx=10, pady=10)
-    frame.pack(padx=10, pady=10)
+        print("Choose an option:")
+        print("1. Show Network Traffic Flow")
+        print("2. Optimize Manufacturing Production")
+        print("3. Exit")
 
-    label = tk.Label(frame, text="Choose an option:")
-    label.pack(pady=(0, 10))
+        choice = input("Enter your choice (1/2/3): ")
 
-    button1 = tk.Button(frame, text="Option 1: Show Network Traffic Flow", command=prob1)
-    button1.pack(fill=tk.X, pady=5)
-
-    button2 = tk.Button(frame, text="Option 2: Optimize Manufactoring Production", command=prob2)
-    button2.pack(fill=tk.X, pady=5)
-
-    exit_button = tk.Button(frame, text="Exit", command=root.quit)
-    exit_button.pack(fill=tk.X, pady=(20, 0))
-
-    root.mainloop()
+        if choice == '1':
+            prob1()
+            press_key_to_continue()
+        elif choice == '2':
+            prob2()
+            press_key_to_continue()
+        elif choice == '3':
+            print("Exiting...")
+            break 
+        else:
+            os.system("clear || cls")
+            print("Invalid choice. Please enter 1, 2, or 3.")
 
 def prob1():
     A = np.array([
@@ -156,5 +162,9 @@ def prob2():
     ax.legend()
 
     plt.show()
+
+def press_key_to_continue():
+    input("Press Enter to continue...")
+    os.system("clear || cls")
 
 main()
