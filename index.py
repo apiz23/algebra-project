@@ -71,7 +71,11 @@ def prob1():
     smallest_nonzero_eigenvalue_index = np.argsort(eigenvalues)[1]
     critical_eigenvector = eigenvectors[:, smallest_nonzero_eigenvalue_index]
 
-    critical_links = [(nodes[i], nodes[j]) for i in range(len(nodes)) for j in range(i + 1, len(nodes)) if abs(critical_eigenvector[i] - critical_eigenvector[j]) > 0.1]
+    critical_links = [
+        (nodes[i], nodes[j]) for i in range(len(nodes)) 
+        for j in range(i + 1, len(nodes)) 
+        if abs(critical_eigenvector[i] - critical_eigenvector[j]) > 0.1
+    ]
 
     nx.draw(Gph, pos, with_labels=True, node_color='lightblue', node_size=1500, font_size=12, font_weight='bold')
     nx.draw_networkx_edges(Gph, pos, edgelist=critical_links, edge_color='r', width=2)
